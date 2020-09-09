@@ -1,0 +1,1 @@
+CLASSIFIER_MODELS = "model_committee"
