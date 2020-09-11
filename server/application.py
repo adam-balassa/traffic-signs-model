@@ -1,6 +1,6 @@
 from server import json
 from trafficsigndetector.traffic_sign_detector import TrafficSignDetector
-from utils.load_image import load_image
+from utils import load_image, time
 
 
 class Application:
@@ -9,7 +9,7 @@ class Application:
 
     def detect(self, path):
         image = load_image(path)
-        objects, labels = self.detector.detect(image)
+        objects, labels = time.measure(lambda: self.detector.detect(image), 'the whole process')
         return json.convert(objects, labels)
 
 

@@ -1,6 +1,15 @@
 import numpy as np
 
-from utils.resize import resize_many
+from utils import resize_many
+
+
+def get_all_boxes(images):
+    boxes = np.empty((0, 4), dtype='int')
+    i = 1
+    while i <= 8:
+        boxes = np.concatenate((boxes, get_boxes(images, i)), axis=0)
+        i *= 2
+    return boxes
 
 
 def get_boxes(image, i):
@@ -31,13 +40,18 @@ def get_predictions(cnns, images):
     return np.array(final_predictions)
 
 
-def scan_boxes(cnns, images, boxes):
+def get_cropped_images(boxes, image_eq, image_stretch, image_adeq):
+    images = [image_eq, image_stretch, image_adeq]
     resized_images = []
     for box in boxes:
         x1, x2, y1, y2 = box
         cropped = [image[y1:y2, x1:x2] for image in images]
         resized_images.append(resize_many(cropped, (48, 48)))
     resized_images = np.transpose(np.array(resized_images), axes=(1, 0, 2, 3, 4))
+    return resized_images
+
+
+def scan_boxes(cnns, resized_images, boxes):
     predictions = get_predictions(cnns, resized_images)
 
     for i in range(0, len(boxes)):

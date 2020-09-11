@@ -1,5 +1,5 @@
 from preprocessor import *
-from utils.resize import resize_many
+from utils import resize_many
 
 
 def prepare_for_detection(image):
