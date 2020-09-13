@@ -8,6 +8,7 @@ class TrafficSignClassifier:
         self.cnns = load(CLASSIFIER_MODELS)
 
     def predict(self, images):
+
         results = np.array([self.cnns[i].predict(np.array([images[i]]))[0] for i in range(0, len(self.cnns))])
         return self.vote(results)
 
