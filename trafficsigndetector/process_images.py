@@ -11,14 +11,11 @@ def prepare_for_classification(objects, image):
         images.append(img_cropped)
     images = resize_many(np.array(images), (40, 40))
 
-    img_simple = [img for img in images]
-    img_stretch = [preprocess(np.array([img]), histogram_stretching)[0] for img in images]
-    img_eq = [preprocess(np.array([img]), histogram_equalization)[0] for img in images]
     img_adeq = [preprocess(np.array([img]), adaptive_histogram_equalization)[0] for img in images]
     img_hog = [hog(img) for img in images]
 
     preprocessed_images = [
-        np.array([img_simple[i], img_stretch[i], img_eq[i], img_adeq[i], img_hog[i]])
-        for i in range(0, len(img_simple))
+        np.array([images[i], img_adeq[i], img_hog[i]])
+        for i in range(0, len(images))
     ]
     return np.array(preprocessed_images)

@@ -14,13 +14,3 @@ def get_model():
     model.add(Dense(300, activation='relu'))
     model.add(Dense(43, activation='softmax'))  # hyperbolic tangent?
     return model
-
-
-def get_mlp():
-    model = Sequential()
-    model.add(Dense(1000, activation='relu', input_dim=5000))
-    model.add(Dropout(0.33))
-    model.add(Dense(300, activation='relu'))
-    model.add(Dropout(0.33))
-    model.add(Dense(43, activation='softmax'))
-    return model
