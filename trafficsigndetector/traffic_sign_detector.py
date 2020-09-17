@@ -14,5 +14,6 @@ class TrafficSignDetector(object):
         objects = time.measure(lambda: self.detector.predict(image), 'detection')
         extend_bounding_boxes(objects, 0.15)
         images = time.measure(lambda: prepare_for_classification(objects, image), 'image preprocessing')
-        labels = time.measure(lambda: [self.classifier.predict(imgs) for imgs in images], 'classification')
+        labels = time.measure(lambda: self.classifier.predict(images), 'classification')
+        print(objects, labels)
         return objects, labels

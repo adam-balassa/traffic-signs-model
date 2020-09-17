@@ -1,5 +1,14 @@
+import keras.backend as K
 from keras import Sequential
-from keras.layers import Conv2D, MaxPool2D, Flatten, Dense, Dropout
+from keras.layers import Conv2D, MaxPool2D, Flatten, Dense, Input, Add, Lambda
+from keras.models import Model
+
+
+def sequential(input_tensor, layers):
+    prev_layer = input_tensor
+    for layer in layers:
+        prev_layer = layer(prev_layer)
+    return prev_layer
 
 
 def get_model():
@@ -14,3 +23,15 @@ def get_model():
     model.add(Dense(300, activation='relu'))
     model.add(Dense(43, activation='softmax'))  # hyperbolic tangent?
     return model
+
+
+def extend_model(models):
+    model_names = ['simple', 'stretch', 'eq', 'adeq']
+    inputs = [Input(shape=(None, None, 3), name=f"input_{name}") for name in model_names]
+
+    model_outputs = [sequential(inputs[i], models[i].layers) for i in range(0, len(inputs))]
+
+    votes_sum = Add(name="votes_sum")(model_outputs)
+    votes = Lambda(lambda x: K.argmax(x, axis=-1), name="votes")(votes_sum)
+
+    return Model(inputs=inputs, outputs=votes)
