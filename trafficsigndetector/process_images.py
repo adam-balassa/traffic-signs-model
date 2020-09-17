@@ -9,7 +9,7 @@ def prepare_for_classification(objects, image):
         x1, x2, y1, y2 = int(x1), int(x2), int(y1), int(y2)
         img_cropped = image[y1:y2, x1:x2]
         images.append(img_cropped)
-    images = resize_many(np.array(images), (40, 40))
+    images = resize_many(images, (40, 40))
 
     img_adeq = preprocess(images, adaptive_histogram_equalization)
     img_eq = preprocess(images, histogram_equalization)
