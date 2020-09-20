@@ -1,4 +1,4 @@
-from skimage.transform import resize
+from cv2 import resize
 import skimage.feature as feature
 
 from preprocessor import histogram_equalization

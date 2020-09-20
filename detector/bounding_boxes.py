@@ -1,13 +1,13 @@
 import numpy as np
 
 
-def get_all_boxes(image):
-    boxes = []
+def get_all_boxes(images):
+    boxes = np.empty((0, 4), dtype='int')
     i = 1
     while i <= 8:
-        boxes.extend(get_boxes(image, i))
+        boxes = np.concatenate((boxes, get_boxes(images, i)), axis=0)
         i *= 2
-    return np.array(boxes, dtype='int')
+    return boxes
 
 
 def get_boxes(image, i):
@@ -21,4 +21,4 @@ def get_boxes(image, i):
             x += box_size / 2
         y += box_size / 2
         x = 0
-    return boxes
+    return np.array(boxes, dtype='int')

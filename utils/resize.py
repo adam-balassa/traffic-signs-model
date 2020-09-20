@@ -1,5 +1,5 @@
 import numpy as np
-from skimage.transform import resize
+from cv2 import resize
 
 
 def resize_many(images, shape=(32, 32)):

@@ -1,8 +1,7 @@
 import numpy as np
-from skimage.transform import resize
+from cv2 import resize
 
 from preprocessor import preprocess, histogram_equalization, histogram_stretching, adaptive_histogram_equalization
-from utils import resize_many
 
 
 def get_cropped_images(boxes, image):
