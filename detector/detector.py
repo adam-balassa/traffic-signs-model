@@ -1,22 +1,23 @@
 import numpy as np
 
-from detector.bounding_boxes import scan_boxes, get_all_boxes
-from detector.constants import DETECTOR_MODELS
-from detector.images import get_cropped_images, preprocess_images
-from detector.load_models import load
+from detector.bounding_boxes import get_all_boxes
+from detector.images import preprocess_images
+from detector.model import load_full_model
 from detector.non_max_suppression import non_max_suppression
-from utils import time
 
 
 class ObjectDetector:
     def __init__(self):
-        self.cnns = load(DETECTOR_MODELS)
+        self.model = load_full_model()
 
     def predict(self, image):
-        boxes = time.measure(lambda: get_all_boxes(image), 'counting boxes')
-        preprocessed_images = time.measure(lambda: preprocess_images(image, boxes), 'preprocess images')
+        boxes = get_all_boxes(image)
+        image_types = preprocess_images(image, boxes)
 
-        predictions = time.measure(lambda: scan_boxes(self.cnns, preprocessed_images, boxes), 'localization')
-        result = non_max_suppression(predictions)
+        result = np.ndarray(shape=(0, 5), dtype='float32')
+        for images in image_types:
+            predictions = self.model.predict(images)
+            result = np.concatenate((result, predictions))
 
-        return np.array(result)
+        result = non_max_suppression(result)
+        return result
