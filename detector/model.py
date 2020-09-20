@@ -6,7 +6,7 @@ from keras.models import Sequential, Model
 from keras.layers import Conv2D, MaxPool2D, Flatten, Dropout, Dense, Input, Lambda
 
 import detector
-from detector.constants import DETECTOR_MODELS
+from detector.constants import DETECTOR_MODELS, CLASSIFICATION_THRESHOLD
 
 
 def get_model(name):
@@ -41,11 +41,11 @@ def summarize(x):
     x = K.permute_dimensions(tf.convert_to_tensor(x), (1, 0, 2))
     confidences, bounding_boxes = x[..., 0], x[..., 1:]
 
-    positive_pred_mask = K.greater(confidences, 0.000005)
+    positive_pred_mask = K.greater(confidences, 0.5)
     positive_pred_mask = K.cast(positive_pred_mask, 'float32')
 
     sum_confidences = K.sum(confidences, axis=-1)
-    sum_positive_pred_mask = K.cast(K.greater(sum_confidences, 0.7), 'float32')
+    sum_positive_pred_mask = K.cast(K.greater(sum_confidences, CLASSIFICATION_THRESHOLD), 'float32')
 
     n_positive_pred = K.sum(positive_pred_mask, axis=-1)
 

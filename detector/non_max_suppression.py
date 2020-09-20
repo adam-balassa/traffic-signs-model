@@ -1,5 +1,7 @@
 import numpy as np
 
+from detector.constants import CLASSIFICATION_THRESHOLD
+
 
 def iou(ax1, ax2, ay1, ay2, bx1, bx2, by1, by2):
     x1, x2 = max(ax1, bx1), min(ax2, bx2)
@@ -14,7 +16,7 @@ def find_high_ious(predictions, box):
     ax1, ax2, ay1, ay2 = box[1:]
     for pred in predictions:
         bx1, bx2, by1, by2 = pred[1:]
-        if iou(ax1, ax2, ay1, ay2, bx1, bx2, by1, by2) > 0.33:
+        if iou(ax1, ax2, ay1, ay2, bx1, bx2, by1, by2) > 0.38:
             matches.append(True)
         else:
             matches.append(False)
@@ -22,7 +24,7 @@ def find_high_ious(predictions, box):
 
 
 def non_max_suppression(predictions):
-    predictions = predictions[predictions[..., 0] > 0.8]
+    predictions = predictions[predictions[..., 0] > CLASSIFICATION_THRESHOLD]
     results = []
     while len(predictions) > 0:
         best_match = predictions[np.argmax(predictions[..., 0])]
