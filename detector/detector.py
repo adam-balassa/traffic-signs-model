@@ -1,9 +1,8 @@
-import numpy as np
-
 from detector.bounding_boxes import get_all_boxes
-from detector.images import preprocess_images
+from detector.images import get_input
 from detector.model import load_full_model
 from detector.non_max_suppression import non_max_suppression
+from utils import time
 
 
 class ObjectDetector:
@@ -12,12 +11,9 @@ class ObjectDetector:
 
     def predict(self, image):
         boxes = get_all_boxes(image)
-        image_types = preprocess_images(image, boxes)
+        images = time.measure(lambda: get_input(image, boxes), 'image preprocessing')
 
-        result = np.ndarray(shape=(0, 5), dtype='float32')
-        for images in image_types:
-            predictions = self.model.predict(images)
-            result = np.concatenate((result, predictions))
+        result = time.measure(lambda: self.model.predict(images), 'localization')
 
         result = non_max_suppression(result)
         return result

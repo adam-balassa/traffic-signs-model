@@ -5,9 +5,9 @@ def get_all_boxes(image):
     boxes = []
     i = 1
     while i <= 8:
-        boxes.append(get_boxes(image, i))
+        boxes.extend(get_boxes(image, i))
         i *= 2
-    return boxes
+    return np.array(boxes, dtype='int')
 
 
 def get_boxes(image, i):
@@ -21,4 +21,4 @@ def get_boxes(image, i):
             x += box_size / 2
         y += box_size / 2
         x = 0
-    return np.array(boxes, dtype='int')
+    return boxes

@@ -83,8 +83,7 @@ def load_full_model():
     inputs, outputs = [], []
     for i in range(0, len(models)):
         input_layer, output = sequential([
-            Input(shape=(None, None, 3), name=f"input_{names[i]}"),
-            Lambda(lambda x: tf.image.resize(x, size=(48, 48)), name=f"resize_{names[i]}"),
+            Input(shape=(48, 48, 3), name=f"input_{names[i]}"),
             *models[i].layers
         ])
         inputs.append(input_layer), outputs.append(output)
