@@ -8,6 +8,12 @@ def convert(objects, labels):
     return json.dumps(result, default=universal_converter)
 
 
+def parse(request):
+    body_unicode = request.body.decode('utf-8')
+    body = json.loads(body_unicode)
+    return body
+
+
 def universal_converter(obj):
     if isinstance(obj, np.integer):
         return int(obj)

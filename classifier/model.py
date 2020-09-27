@@ -1,7 +1,7 @@
-import keras.backend as K
-from keras import Sequential
-from keras.layers import Conv2D, MaxPool2D, Flatten, Dense, Input, Add, Lambda
-from keras.models import Model
+import tensorflow.keras.backend as K
+from tensorflow.keras import Sequential
+from tensorflow.keras.layers import Conv2D, MaxPool2D, Flatten, Dense, Input, Add, Lambda
+from tensorflow.keras.models import Model
 
 
 def sequential(input_tensor, layers):
