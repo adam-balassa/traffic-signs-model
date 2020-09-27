@@ -12,7 +12,6 @@ class ObjectDetector:
     def predict(self, image):
         boxes = get_all_boxes(image)
         images = time.measure(lambda: get_input(image, boxes), 'image preprocessing')
-
         result = time.measure(lambda: self.model.predict(images), 'localization')
         result = non_max_suppression(result)
         return result

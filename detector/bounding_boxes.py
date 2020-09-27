@@ -8,7 +8,7 @@ def get_all_boxes(image):
     i = 1
     while i <= 8:
         boxes = np.concatenate((boxes, get_boxes(image, i)), axis=0)
-        i += 2
+        i *= 2
     return boxes
 
 

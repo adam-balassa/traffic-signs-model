@@ -88,7 +88,7 @@ def load_full_model():
         ])
         inputs.append(input_layer), outputs.append(output)
 
-    box_shape_input = Input(shape=4, name="box_shape")
+    box_shape_input = Input(shape=[4], name="box_shape")
     inputs.append(box_shape_input)
 
     summarize_layer = Lambda(lambda x: summarize(x), name="summarize")(outputs)
