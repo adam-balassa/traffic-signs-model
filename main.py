@@ -1,14 +1,13 @@
 import sys
 from pathlib import Path
 
+from server.server import run
 
 mode = sys.argv[1]
-assert mode == 'server' or mode == 'local'
+assert mode == 'runserver' or mode == 'local'
 
-if mode == 'server':
-    import server
-
-    server.run()
+if mode == 'runserver':
+    run()
 else:
     from utils import load_image, time
     from trafficsigndetector.traffic_sign_detector import TrafficSignDetector

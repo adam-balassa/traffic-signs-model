@@ -1,9 +1,9 @@
 from pathlib import Path
 
 import tensorflow as tf
-import keras.backend as K
-from keras.models import Sequential, Model
-from keras.layers import Conv2D, MaxPool2D, Flatten, Dropout, Dense, Input, Lambda
+import tensorflow.keras.backend as K
+from tensorflow.keras.models import Sequential, Model
+from tensorflow.keras.layers import Conv2D, MaxPool2D, Flatten, Dropout, Dense, Input, Lambda
 
 import detector
 from detector.constants import DETECTOR_MODELS, CLASSIFICATION_THRESHOLD
