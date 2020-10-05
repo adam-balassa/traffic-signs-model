@@ -13,10 +13,14 @@ class Classifier:
         self.final_classes = ("prohibitory", "danger", "direction", "release", "red_surface")
 
     def predict(self, images):
-        images = [[images[img_type][i] for img_type in range(0, len(images))] for i in range(0, len(images[0]))]
-        labels = [self.predict_image(image) for image in images]
+        labels = self.predict_images(images)
         labels = np.array(labels)
         return labels[labels != -1]
+
+    def predict_images(self, images):
+        multilayer_y = self.multilayer_classifier.predict(images)
+        images = [[images[img_type][i:i+1] for img_type in range(0, len(images))] for i in range(0, len(images[0]))]
+        return [self.predict_class(images[i], multilayer_y[i]) for i in range(0, len(images))]
 
     def predict_image(self, image):
         image = [np.array([img]) for img in image]
