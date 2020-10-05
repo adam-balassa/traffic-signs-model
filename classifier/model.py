@@ -27,7 +27,7 @@ def get_model():
 
 def extend_model(models):
     model_names = ['simple', 'stretch', 'eq', 'adeq']
-    inputs = [Input(shape=(None, None, 3), name=f"input_{name}") for name in model_names]
+    inputs = [Input(shape=(40, 40, 3), name=f"input_{name}") for name in model_names]
 
     model_outputs = [sequential(inputs[i], models[i].layers) for i in range(0, len(inputs))]
 
