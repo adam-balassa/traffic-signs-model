@@ -53,7 +53,6 @@ def get_model_simple(name, input_layer, output):
     ])
 
 
-@tf.function
 def get_2_max(y):
     best = K.argmax(y, axis=-1)
     y_min_best = y - K.one_hot(best, K.shape(y)[-1])
@@ -85,8 +84,7 @@ def get_release_model(inputs):
     return Lambda(lambda x: get_2_max(x), name=f"argmax_release")(output)
 
 
-@tf.function
-def layer_multiplexer(y):
+def recurring_layer_multiplexer(y):
     multilayer_pred, prohibitory, danger, direction, release, red_surface = y[0], y[1], y[2], y[3], y[4], y[5]
     prohib_map = K.constant([0, 1, 2, 3, 4, 5, 7, 8, 9, 10, 15, 16, 43], 'int32')
     danger_map = K.constant([11, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 43], 'int32')
@@ -110,6 +108,7 @@ def layer_multiplexer(y):
                                                                       K.cast(red_surface[0][0], 'int32'))
                                                              )))))
 
+    return best_pred
     best_pred_conf = K.switch(K.greater(multilayer_pred[0][0], 4),
                               multilayer_pred,
                               K.switch(K.equal(multilayer_indices[0][0], 0),

@@ -1,5 +1,5 @@
 from detector import ObjectDetector
-from recurring_classifier.classifier import Classifier
+from classifier.single import Classifier
 from utils import time
 from .bounding_box import extend_bounding_boxes
 from .process_images import prepare_for_classification

@@ -1,7 +1,7 @@
 from pathlib import Path
 
 import classifier
-from classifier.model import get_model
+from classifier.simple.model import get_model
 
 
 def load_model():

@@ -3,9 +3,9 @@ from pathlib import Path
 from tensorflow.keras.layers import Input, Lambda
 from tensorflow.keras.models import Model
 
-import recurring_classifier
-from recurring_classifier.model import get_full_model, model_names, get_cnn_model, get_model, get_release_model, \
-    layer_multiplexer, get_model_simple
+import classifier
+from classifier.recurring.model import get_full_model, model_names, get_cnn_model, get_model, get_release_model, \
+    recurring_layer_multiplexer, get_model_simple
 
 
 def load_model():
@@ -22,10 +22,10 @@ def load_model():
     }
 
     outputs = [multilayer, *[final_layers[name] for name in final_layers]]
-    output = Lambda(lambda x: layer_multiplexer(x), name='layer_multiplexer')(outputs)
+    output = Lambda(lambda x: recurring_layer_multiplexer(x), name='layer_multiplexer')(outputs)
 
     Model(inputs=inputs, outputs=multilayer)\
-        .load_weights(f'{Path(recurring_classifier.__file__).parent}/models/multilayer_classifier.h5')
+        .load_weights(f'{Path(classifier.__file__).parent}/models/multilayer_classifier.h5')
 
     for name in final_layers:
         layer = final_layers[name]
@@ -34,8 +34,7 @@ def load_model():
         else:
             filename = f'{name}_classifier'
         Model(inputs=inputs, outputs=layer)\
-            .load_weights(f'{Path(recurring_classifier.__file__).parent}/models/{filename}.h5')
+            .load_weights(f'{Path(classifier.__file__).parent}/models/{filename}.h5')
 
     model = Model(inputs=inputs, outputs=output)
-    model.compile(metrics=['accuracy'])
     return model

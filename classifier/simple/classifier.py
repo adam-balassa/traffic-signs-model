@@ -1,9 +1,9 @@
-from classifier.load_models import load_model
+from classifier.simple.load_models import load_model
 
-from classifier.model import extend_model
+from classifier.simple.model import extend_model
 
 
-class TrafficSignClassifier:
+class Classifier:
     def __init__(self):
         cnns = load_model()
         self.model = extend_model(cnns)

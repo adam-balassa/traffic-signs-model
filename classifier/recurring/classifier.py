@@ -1,4 +1,4 @@
-from recurring_classifier.load_model import load_model
+from classifier.recurring.load_model import load_model
 
 
 class Classifier:
