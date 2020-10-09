@@ -9,4 +9,4 @@ class Classifier:
         load_model(self.model)
 
     def predict(self, images):
-        return      self.model.predict(images)[-1]
+        return self.model.predict(images)[-1]
