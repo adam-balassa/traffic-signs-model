@@ -1,9 +1,8 @@
-from detector import ObjectDetector
 from classifier.single import Classifier
+from detector import ObjectDetector
 from utils import time
 from .bounding_box import extend_bounding_boxes
-from .process_images import prepare_for_classification, prepare_multiple_for_classification
-import numpy as np
+from .process_images import prepare_for_classification, resize_for_classification
 
 
 class TrafficSignDetector(object):
@@ -20,9 +19,8 @@ class TrafficSignDetector(object):
         return objects, labels
 
     def detect_multiple(self, images):
-        objects = time.measure(lambda: self.detector.predict_multiple(images), 'detection')
-        [extend_bounding_boxes(obj, 0.15) for obj in objects]
-        preprocessed = time.measure(lambda: prepare_multiple_for_classification(objects, images), 'image preprocessing')
+        objects, preprocessed_images = time.measure(lambda: self.detector.predict_multiple(images), 'detection')
+        preprocessed = time.measure(lambda: resize_for_classification(objects, preprocessed_images, images), 'preprocessing')
         labels = time.measure(lambda: self.classifier.predict(preprocessed), 'classification')
 
         results = []

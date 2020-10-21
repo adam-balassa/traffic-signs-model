@@ -1,5 +1,6 @@
 import sys
 from pathlib import Path
+import numpy as np
 
 from server.server import run
 
@@ -14,4 +15,5 @@ else:
 
     image = load_image('{root}/assets/images/{image}.png'.format(root=Path(__file__).parent, image='testimage'))
     detector = TrafficSignDetector()
-    time.measure(lambda: detector.detect_multiple([image for _ in range(0, 10)]), 'whole process')
+    time.measure(lambda: detector.detect_multiple(np.asarray([image for _ in range(0, 2)])), 'whole process')
+    #time.measure(lambda: detector.detect(image), 'whole process')
