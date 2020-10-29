@@ -15,5 +15,6 @@ else:
 
     image = load_image('{root}/assets/images/{image}.png'.format(root=Path(__file__).parent, image='testimage'))
     detector = TrafficSignDetector()
-    time.measure(lambda: detector.detect_multiple(np.asarray([image for _ in range(0, 2)])), 'whole process')
-    #time.measure(lambda: detector.detect(image), 'whole process')
+    time.measure(lambda: detector.detect_multiple(np.asarray([image for _ in range(0, 1)])), 'whole process')
+    time.measure(lambda: detector.detect_multiple(np.asarray([image for _ in range(0, 1)])), 'whole process')
+    time.measure(lambda: detector.detect_multiple(np.asarray([image for _ in range(0, 1)])), 'whole process')

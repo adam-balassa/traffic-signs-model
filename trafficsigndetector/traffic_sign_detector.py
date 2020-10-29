@@ -30,4 +30,4 @@ class TrafficSignDetector(object):
             j += len(objects[i])
 
         print(objects, results)
-        return objects
+        return objects, results
