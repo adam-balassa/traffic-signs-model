@@ -42,7 +42,7 @@ def resize_for_classification(objects, preprocessed, original):
     for i in range(0, len(objects)):
         for x, y, w, h in objects[i][..., 1:]:
             x1, x2, y1, y2 = x-w/2, x+w/2, y-h/2, y+h/2
-            x1, x2, y1, y2 = int(x1), int(x2), int(y1), int(y2)
+            x1, x2, y1, y2 = int(x1), int(x2 + 1), int(y1), int(y2 + 1)
             simple.append(resize(simple_[i, y1:y2, x1:x2], (40, 40)))
             stretch.append(resize(stretch_[i, y1:y2, x1:x2], (40, 40)))
             eq.append(resize(eq_[i, y1:y2, x1:x2], (40, 40)))

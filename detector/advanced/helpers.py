@@ -36,20 +36,17 @@ def get_preprocessed_images(images):
     return images
 
 
-def get_inputs(images, boxes, box_scales):
+def get_inputs(images, boxes):
     n = len(images[0])
     images = [get_cropped_images(imgs, boxes) for imgs in images]
-    f_boxes = []
-    for i in range(0, n):
-        f_boxes = [*f_boxes, *boxes * box_scales[i]]
-    return [*images, np.array(f_boxes)]
+    return [*images, boxes]
 
 
-def get_all_inputs(images, boxes, box_scales):
+def get_all_inputs(images, boxes):
     images = get_preprocessed_images(images)
     inputs = []
     for box_type in boxes:
-        inputs.append(get_inputs(images, box_type, box_scales))
+        inputs.append(get_inputs(images, box_type))
     return inputs, images
 
 

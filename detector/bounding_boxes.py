@@ -12,15 +12,16 @@ def get_all_boxes(image):
     return boxes
 
 
-def get_boxes(image, i):
+def get_boxes(i):
     boxes = []
-    box_size = int(image.shape[0] / i)
+    box_size = int(256 / i)
     dx = dy = box_size / SLIDING_WINDOW_RATIO
-    number_of_boxes = int(SLIDING_WINDOW_RATIO * i - 1)
+    number_of_boxes = int((i - 1) * SLIDING_WINDOW_RATIO + 1)
     x, y = 0, 0
     for i in range(0, number_of_boxes):
         for j in range(0, number_of_boxes):
-            boxes.append([x, x + box_size, y, y + box_size])
+            x_m, y_m = min(x + box_size, 256), min(y + box_size, 256)
+            boxes.append([x_m - box_size, x_m, y_m - box_size, y_m])
             x += dx
         y += dy
         x = 0

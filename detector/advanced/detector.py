@@ -11,8 +11,7 @@ class ObjectDetector:
 
     def predict_multiple(self, images):
         boxes = get_all_boxes()
-        box_scales = [len(image) / 256 for image in images]
-        inputs, preprocessed_images = time.measure(lambda: get_all_inputs(images, boxes, box_scales), 'preprocess')
+        inputs, preprocessed_images = time.measure(lambda: get_all_inputs(images, boxes), 'preprocess')
         results = None
         for i in range(0, 4):
             cls, reg = time.measure(lambda: self.models[i].predict(inputs[i]), f'detection {i}')
@@ -26,4 +25,5 @@ class ObjectDetector:
             else:
                 results = np.concatenate((results, result), axis=1)
         results = [non_max_suppression(result) for result in results]
-        return results, preprocessed_images
+        box_scales = np.asarray([[len(image[0]) / 256, len(image) / 256, len(image[0]) / 256, len(image) / 256] for image in images])
+        return results, preprocessed_images, box_scales

@@ -18,5 +18,6 @@ def detect(request):
     path = body["path"]
     print(path)
     image = load_image(path)
+    print(len(image), len(image[0]))
     objects, labels = time.measure(lambda: detector.detect_multiple(np.asarray([image])), 'the whole process')
     return HttpResponse(json.convert(objects[0], labels[0]), content_type="application/json")

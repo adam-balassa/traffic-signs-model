@@ -19,7 +19,9 @@ class TrafficSignDetector(object):
         return objects, labels
 
     def detect_multiple(self, images):
-        objects, preprocessed_images = time.measure(lambda: self.detector.predict_multiple(images), 'detection')
+        objects, preprocessed_images, box_scales = time.measure(lambda: self.detector.predict_multiple(images), 'detection')
+        if len(objects[0]) == 0:
+            return [[]], [[]]
         preprocessed = time.measure(lambda: resize_for_classification(objects, preprocessed_images, images), 'preprocessing')
         labels = time.measure(lambda: self.classifier.predict(preprocessed), 'classification')
 
@@ -29,5 +31,10 @@ class TrafficSignDetector(object):
             results.append([labels[k] for k in range(j, j + len(objects[i]))])
             j += len(objects[i])
 
-        print(objects, results)
-        return objects, results
+        r_objects = []
+        for i in range(0, len(objects)):
+            r_objects.append([])
+            objs = objects[i]
+            r_objects[i] = [[obj[0], *obj[1:] * box_scales[i]] for obj in objs]
+        print(r_objects, results)
+        return r_objects, results
