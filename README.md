@@ -1,14 +1,54 @@
-# Traffic sign model
-A Python model built to recognize traffic signs
-## Modules
-### Classifier
-A Committee of CNNs model consists of 4 CNNs and an MLP that clusters an image into 43 types of traffic signs
-### Detector
-A Committee of CNNs model consists of 3 CNNs that finds bounding boxes that should contain a traffic sign of any kind
-### Traffic sign detector
-The model that combines the detector and the classifier by providing appropriately preprocessed images to the models
+# Traffic signs model
+A component of a traffic sign recognition application, that publishes the recognizer model.
+## Architecture
+### Client
+The traffic sign recognizer comes with a SPA client application, that was developed on an Angular 8 platform. The client
+supports real time recognition by using the device's camera.
+#### Availability
+- [Github URL](https://github.com/bizmut32/traffic-signs-client)
+- [Published client application](https://trafficsigns.netlify.app/)
+#### Demo
+![Demo](docs/client-pc-demo.gif)
+---
 ### Server
-A ZeroRPC server that deploys the Traffic sign detector to any ZeroRPC client, by providing an interface with a detect 
-method that requires a path to an existing image in any format that open-cv can handle
-### Preprocessor
-Preprocessing methods that are required for the detector to work properly
+The application comes with a deployed Spring Boot server application. The server mediates the communication between the
+client and the traffic sign detector.
+#### Endpoints
+- `POST /image`: returns the detection result for a Base64 encoded image
+- `POST /image/random`: returns a Base64 encoded image and the detection results for it
+- `GET /actuator/health`: returns the status of the server application
+#### Availability
+- [Github URL](https://github.com/bizmut32/traffic-sign-server)
+- [Deployed server application](https://traffic-sign-server.herokuapp.com/)
+---
+### Traffic sign detector
+The traffic sign detector is published in this repository. It contains a localizer and a classifier, both 
+implemented with the Keras API. The detector is not deployed, due to lack of resources.
+## Installation
+In order to get the TSR application properly working on your PC follow the following steps.
+- Clone the 3 repositories
+- Run the following commands in the client repository
+```shell script
+npm install
+npm run start
+```
+- Run the following commands in the detector repository
+```shell script
+pipenv install
+python runserver 8081
+```
+- Run the following commands in the server repository
+```shell script
+mvn clean install
+mvn spring-boot:run
+```
+It is also possible to start each server on a different port. By default the client server runs on 4200, the spring 
+server runs on 8080, and the detector runs on 8081.
+If you want the detector to run on a different port, start it with
+```shell script
+python runserver <port number>
+```
+and start the spring server with
+```shell script
+mvn spring-boot:run DETECTOR_HOST=http://localhost:<port number>
+```
