@@ -8,7 +8,7 @@ supports real time recognition by using the device's camera.
 - [Github URL](https://github.com/bizmut32/traffic-signs-client)
 - [Published client application](https://trafficsigns.netlify.app/)
 #### Demo
-![Demo](docs/client-pc-demo.gif)
+![Demo](docs/client-pc-demo2.gif)
 ---
 ### Server
 The application comes with a deployed Spring Boot server application. The server mediates the communication between the
