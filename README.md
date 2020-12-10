@@ -13,13 +13,8 @@ supports real time recognition by using the device's camera.
 ### Server
 The application comes with a deployed Spring Boot server application. The server mediates the communication between the
 client and the traffic sign detector.
-#### Endpoints
-- `POST /image`: returns the detection result for a Base64 encoded image
-- `POST /image/random`: returns a Base64 encoded image and the detection results for it
-- `GET /actuator/health`: returns the status of the server application
 #### Availability
 - [Github URL](https://github.com/bizmut32/traffic-sign-server)
-- [Deployed server application](https://traffic-sign-server.herokuapp.com/)
 ---
 ### Traffic sign detector
 The traffic sign detector is published in this repository. It contains a localizer and a classifier, both 
